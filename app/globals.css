@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff9e9;
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+@layer components {
+  .gradient-text {
+    @apply text-black;
+  }
+  
+  .btn-primary {
+    @apply px-8 py-4 rounded-full font-bold text-lg transition transform hover:scale-105 shadow-lg hover:shadow-2xl;
+  }
+
+  .contact-booking-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-details-panel {
+    border: 1px solid rgb(250 217 187 / 0.8);
+    border-radius: 1.5rem;
+    background: rgb(255 249 233 / 0.92);
+    padding: 1.5rem;
+    color: #000000;
+    box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    backdrop-filter: blur(8px);
+  }
+
+  .contact-details-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 900;
+  }
+
+  .contact-details-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .contact-details-card {
+    display: flex;
+    gap: 1rem;
+    border-radius: 1rem;
+    background: rgb(247 237 247 / 0.85);
+    padding: 1rem;
+  }
+
+  .contact-details-card > div {
+    min-width: 0;
+  }
+
+  .contact-details-icon {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 1rem;
+    background: #fad9bb;
+    color: #000000;
+  }
+
+  .contact-details-card-title {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 900;
+  }
+
+  .contact-details-card-value {
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+    color: #000000;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-details-card-note {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 600;
+    color: #000000;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact-details-card {
+    gap: 0.75rem;
+    padding: 0.875rem;
+  }
+
+  .contact-details-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .contact-details-panel {
+    padding: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contact-booking-grid {
+    grid-template-columns: 0.82fr 1.18fr;
+  }
+}
