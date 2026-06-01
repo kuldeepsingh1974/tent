@@ -236,6 +236,18 @@ export const gallery = [
     title: 'Gold White Chandelier Bed Decor',
     image: '/gallery/bed-with-gold-white-bed-chandelier-with-flowers-it.jpg',
   },
+  {
+    title: 'Premium Wedding Setup 1',
+    image: '/gallery/IMG-20260531-WA0003.jpg',
+  },
+  {
+    title: 'Premium Wedding Setup 2',
+    image: '/gallery/IMG-20260531-WA0004.jpg',
+  },
+  {
+    title: 'Premium Wedding Setup 3',
+    image: '/gallery/IMG-20260531-WA0005.jpg',
+  },
 ];
 
 const homepageGallery = gallery.slice(0, 7);
@@ -243,30 +255,30 @@ const homepageGallery = gallery.slice(0, 7);
 const testimonials = [
   {
     name: 'Mahesh Mahtno',
-    event: 'Shaadi Function',
+    event: 'Wedding Ceremony',
     text: 'Shaadi ka pura tent aur decoration bahut badhiya tha. Sab guests ne setup ki tarif ki. Team ne time se pehle saara kaam complete kar diya tha.',
   },
   {
     name: 'Palak',
-    event: 'Birthday Party',
+    event: 'Birthday Bash',
     text: 'Decoration dekh kar bachche aur family sab bahut khush hue. Lighting aur seating arrangement bhi kaafi accha tha. Service se hum poori tarah satisfied hain.',
   },
   {
     name: 'Sachin Kumar',
-    event: 'Jagran Program',
+    event: 'Mata Ki Jagran',
     text: 'Rate bhi theek tha aur kaam bhi bahut professional tha. Jo promise kiya tha wahi setup diya. Aage bhi function hoga to inhi ko book karenge.',
   },
   {
     name: 'Prakash Chand',
-    event: 'Engagement Ceremony',
+    event: 'Corporate Event',
     text: 'Stage decoration aur flower work bahut sundar tha. Har cheez saaf-suthri aur well managed thi. Guests ne bhi kaafi tarif ki.',
   },
   {
     name: 'Ritik Kumar',
-    event: 'Family Function',
+    event: 'Family Gathering',
     text: 'Pura arrangement ekdum tension-free raha. Tent, chairs, lighting aur dining setup sab perfect tha. Team ka behaviour bhi bahut accha tha.',
   },
-  { name: 'Niharika nigam', event: 'Ring Ceremony', text: 'Decoration dekhkar sabhi guests impress ho gaye. Team ne har chhoti-badi cheez ka dhyan rakha aur pura setup time par complete kar diya. Zarurat padne par dobara inhi ki service lenge.' }
+  { name: 'Niharika Nigam', event: 'Engagement Ceremony', text: 'Decoration dekhkar sabhi guests impress ho gaye. Team ne har chhoti-badi cheez ka dhyan rakha aur pura setup time par complete kar diya. Zarurat padne par dobara inhi ki service lenge.' }
 ];
 
 
@@ -279,6 +291,7 @@ export default function TentHouseLanding() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState<number | null>(null);
+  const [formSubmittedAt] = useState(Date.now()); // Track when form page was loaded
 
   const updateBookingField = (field: keyof BookingForm, value: string) => {
     const nextValue = field === 'phone' ? value.replace(/\D/g, '').slice(0, 10) : value;
@@ -364,12 +377,18 @@ export default function TentHouseLanding() {
       return;
     }
 
+    // Calculate time taken to fill form
+    const submissionTime = Date.now() - formSubmittedAt;
+
     setIsSubmitting(true);
     setBookingSuccess('');
     setBookingSubmitError('');
     setRecaptchaError('');
 
     try {
+      const honeypotElement = document.querySelector('input[name="website"]') as HTMLInputElement | null;
+      const honeypot = honeypotElement?.value || '';
+
       const payload = {
         name: bookingForm.name.trim(),
         phone: bookingForm.phone,
@@ -377,6 +396,8 @@ export default function TentHouseLanding() {
         eventType: bookingForm.eventType,
         message: bookingForm.message.trim(),
         recaptchaToken,
+        honeypot,
+        submissionTime,
       };
 
       const response = await fetch('/api/quote', {
@@ -734,6 +755,16 @@ export default function TentHouseLanding() {
                   />
                 </Field>
               </div>
+
+              {/* Honeypot field for bot detection */}
+              <input
+                type="text"
+                name="website"
+                style={{ display: 'none' }}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
 
               <div className="mt-5">
                 {recaptchaSiteKey ? (
